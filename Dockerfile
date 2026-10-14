@@ -14,5 +14,6 @@ RUN echo "neofetch" >> /root/.bashrc && \
 EXPOSE $PORT
 
 CMD ["/bin/bash", "-c", "\
+    set -o pipefail && \
     echo \"export PS1='\\[\\033[01;32m\\]$USERNAME@\\h\\[\\033[00m\\]:\\[\\033[01;34m\\]\\w\\[\\033[00m\\]\\$ '\" >> /root/.bashrc && \
-    /bin/ttyd -p $PORT -c $USERNAME:$PASSWORD /bin/bash"]
+    /bin/ttyd -p $PORT -c $USERNAME:$PASSWORD /bin/bash 2>&1 | grep --line-buffered -v 'credential:'"]
